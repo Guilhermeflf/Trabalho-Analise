@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int Recur_CB(int p[], int n)
+{
+	if (n == 0)
+	{
+        return 0;
+	}else{
+    	int q = 1;
+		for (int i = 1; i <= n; i++)
+    	{
+    	    int aux = p[i - 1] + Recur_CB(p, n - i);
+    	    if(q < aux)
+    	    {
+   		       q = aux;
+    	    }
+    	}
+    	return q;
+	}
+}
+
+int main()
+{
+	FILE *arq;
+	char str[100], Linha[100];
+	int i=1, result, armTemp[100], k=0, j=0, l=0;
+	
+	printf("Por gentileza, digite o nome do arquivo mais a extensão do mesmo a ser aberto:\n");
+	gets(str);
+	
+	arq = fopen(str, "rt");
+	
+	system("cls");
+	
+	if (arq == NULL)
+	{
+		printf("erro na abertura do arquivo ou arquivo inexistente!!!");
+	}else{
+		
+		while (!feof(arq))
+		{
+			// Lê uma linha (inclusive com o '\n')
+	    	result = fscanf(arq, "%s", Linha);  // o 'fgets' lê até 99 caracteres ou até o '\n'
+    		if (result)		// Se foi possível ler
+			{
+//				printf("Linha %d : %s\n",i,Linha);
+				armTemp[i] = atoi(Linha);
+			}
+			i++;
+		}
+		
+		int atividade[(i-1)/3], horaInicio[(i-1)/3], horaFinal[(i-1)/3];
+		
+		for(int x = 1; x <= i; x++)
+		{
+			if(x % 3 == 0)
+			{
+				horaFinal[k] = armTemp[x];
+				k++;
+			}else if(x % 3 == 1){
+				atividade[j] = armTemp[x];
+				j++;
+			}else if(x % 3 == 2)
+			{
+				horaInicio[l] = armTemp[x];
+				l++;
+			}
+		}
+		
+		printf("Numero da atividade:\n");
+		for(int z = 0; z < (i/3); z++)
+		{
+			printf("%i\t", atividade[z]);
+		}
+		printf("\nTempo em que se inicia a atividade:\n");
+		for(int z = 0; z < (i/3); z++)
+		{
+			printf("%i\t", horaInicio[z]);
+		}
+		printf("\nTempo em que termina a atividade:\n");
+		for(int z = 0; z < (i/3); z++)
+		{
+			printf("%i\t", horaFinal[z]);
+		}
+		
+  		fclose(arq);
+	}
+//	puts(str);
+//	int mat[n][2];
+	
+}
